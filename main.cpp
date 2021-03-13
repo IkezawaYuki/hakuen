@@ -5,12 +5,45 @@ using namespace std;
 void bubble_sort();
 void selection_sort();
 void merge_sort();
+void quick_sort();
+void insertion_sort();
+void shell_sort();
 
 int main() {
 //    bubble_sort();
 //    selection_sort();
-    merge_sort();
+//    merge_sort();
+//    insertion_sort();
+    shell_sort();
     return 0;
+}
+
+void insertion_sort(){
+    int n;
+    cout << "\nEnter the length of your array : ";
+    cin >> n;
+    int Array[n];
+    cout << "\nEnter any " << n << " Numbers for Unsorted Array : ";
+
+    for (int i = 0; i < n; i++) {
+        cin >> Array[i];
+    }
+
+    for (int i = 0; i < n; i++) {
+        int temp = Array[i];
+        int j = i - 1;
+        while (j >= 0 && temp < Array[j]) {
+            Array[j+1] = Array[j];
+            j--;
+        }
+        Array[j+1] = temp;
+    }
+
+    cout << "\nSorted Array :";
+    for (int i = 0; i < n; i++) {
+        cout << Array[i] << "\t";
+    }
+
 }
 
 void merge(int arr[], int l, int m, int r) {
@@ -147,5 +180,75 @@ void selection_sort(){
     cout << "\nSorted Array :";
     for (int j : Array) {
         cout << j << "\t";
+    }
+}
+
+int partition(int arr[], int low, int high) {
+    int i = 0;
+    int pivot = (low + high) / 2;
+    for (int j = 0; j < high; j++){
+        if (arr[j] <= pivot){
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+    int temp = arr[i + 1];
+    arr[i+1] = arr[high];
+    arr[high] = temp;
+    return (i + 1);
+}
+
+void quickSort(int arr[], int low, int high){
+    if (low < high) {
+        int p = partition(arr, low, high);
+        quickSort(arr, low, p - 1);
+        quickSort(arr, p, high);
+    }
+}
+
+void quick_sort(){
+    int size;
+    cout << "\nEnter the number of elements : ";
+    cin >> size;
+    int arr[size];
+    cout << "\nEnter the unsorted elements : ";
+
+    for (int i = 0; i < size; ++i) {
+        cout << "\n";
+        cin >> arr[i];
+    }
+    quickSort(arr, 0, size);
+    cout << "Sorted array\n";
+    show(arr, size);
+}
+
+void shell_sort(){
+    int size = 10;
+    int array[size];
+    cout << "\nHow many numbers do want to enter in unsorted array : ";
+    cin >> size;
+    cout << "\nEnter the numbers for unsorted array : ";
+    for (int i = 0; i < size; i++){
+        cin >> array[i];
+    }
+
+    for (int i = size / 2; i > 0; i = i / 2) {
+        for (int j = i; j < size; j++) {
+            for (int k = j - i; k >= 0; k = k - i){
+                if (array[k] < array[k+i]) {
+                    break;
+                } else {
+                    int temp = array[k + i];
+                    array[k+i] = array[k];
+                    array[k] = temp;
+                }
+            }
+        }
+
+        cout << "\nSorted array :";
+        for (int i = 0; i < size; ++i) {
+            cout << array[i] << "\t";
+        }
     }
 }
