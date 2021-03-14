@@ -8,13 +8,20 @@ void merge_sort();
 void quick_sort();
 void insertion_sort();
 void shell_sort();
+void counting_sort();
+void binary_search();
+void linear_search();
+
 
 int main() {
 //    bubble_sort();
 //    selection_sort();
 //    merge_sort();
 //    insertion_sort();
-    shell_sort();
+//    shell_sort();
+//    counting_sort();
+//    binary_search();
+    linear_search();
     return 0;
 }
 
@@ -250,5 +257,148 @@ void shell_sort(){
         for (int i = 0; i < size; ++i) {
             cout << array[i] << "\t";
         }
+    }
+}
+
+int Max(int Arr[], int N) {
+    int max = Arr[0];
+    for (int i = 1; i < N; i++) {
+        if (Arr[i] > max) {
+            max = Arr[i];
+        }
+    }
+    return max;
+}
+
+int Min(int Arr[], int N) {
+    int min = Arr[0];
+    for (int i = 1; i < N; i++) {
+        if (Arr[i] < min) {
+            min = Arr[i];
+        }
+    }
+    return min;
+}
+
+void Print(int Arr[], int N) {
+    for (int i = 0; i < N; i++) {
+        cout << Arr[i] << ", ";
+    }
+}
+
+int *Counting_Sort(int Arr[], int N) {
+    int max = Max(Arr, N);
+    int min = Min(Arr, N);
+
+    int *Sorted_Arr = new int[N];
+    int *Count = new int[max - min +1];
+    for (int i = 0; i < N; i++) {
+        Count[Arr[i]-min]++;
+    }
+    for (int i = 0; i < (max - min + 1); i++) {
+        Count[i] += Count[i-1];
+    }
+    for (int i = N - 1; i >= 0; i--) {
+        Sorted_Arr[Count[Arr[i]-min]-1] = Arr[i];
+        Count[Arr[i]-min]--;
+    }
+
+    return Sorted_Arr;
+}
+
+void counting_sort(){
+    int Arr[] = {47, 65, 20, 66, 25, 53, 64, 69, 72, 22, 74, 25, 53, 15, 42, 36, 4, 69, 86, 19}, N = 20;
+    int *Sorted_Arr;
+    cout << "\n\tOrignal Array = ";
+    Print(Arr, N);
+    Sorted_Arr = Counting_Sort(Arr, N);
+    cout << "\n\t Sorted Array = ";
+    Print(Sorted_Arr, N);
+    cout << endl;
+}
+
+int binarySearch(int a[], int l, int r, int key){
+    while (l <= r) {
+        int m = l + (r - l) / 2;
+        if (key == a[m]) {
+            return m;
+        } else if (key < a[m]) {
+            r = m - 1;
+        } else {
+            l = m + 1;
+        }
+    }
+    return -1;
+}
+
+void binary_search(){
+    int n, key;
+    cout << "Enter size of array: ";
+    cin >> n;
+    cout << "Enter array elements: ";
+    int a[n];
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+    cout << "Enter search key: ";
+    cin >> key;
+
+    int res = binarySearch(a, 0, n -1, key);
+    if (res != -1){
+        cout << key << " found at index " << res << endl;
+    } else {
+        cout << key << " not found" << endl;
+    }
+}
+
+int LinearSearch(int *array, int size, int key) {
+    for (int i = 0; i < size; ++i) {
+        if (array[i] == key) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void linear_search(){
+    int size;
+    cout << "\nEnter the size of the Array : ";
+    cin >> size;
+
+    int array[size];
+    int key;
+
+    cout << "\nEnter the Array of " << size << " numbers : ";
+
+    for (int i = 0; i < size; ++i) {
+        cin >> array[i];
+    }
+
+    cout << "\nEnter the number to be searched : ";
+    cin >> key;
+
+    int index = LinearSearch(array, size, key);
+
+    if (index != -1) {
+        cout << "\nNumber found at index : " << index;
+    } else {
+        cout << "\nNot found";
+    }
+}
+
+#define _target 10
+#define absolutePrecision = 0
+#define MAX 10000000
+
+int N = 21;
+int A[MAX] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 10};
+
+void get_input(){
+    // todo
+}
+
+int it_ternary_search(int left, int right, int A[], int target){
+    while (1) {
+
     }
 }
