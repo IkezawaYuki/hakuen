@@ -399,6 +399,12 @@ void get_input(){
 
 int it_ternary_search(int left, int right, int A[], int target){
     while (1) {
+        if (left < right) {
+            if (right - left < absolutePrecision) {
+                for (int i = left; i <= right; i++) {
 
+                }
+            }
+        }
     }
 }
