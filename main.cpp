@@ -11,6 +11,7 @@ void shell_sort();
 void counting_sort();
 void binary_search();
 void linear_search();
+void ternary_search();
 
 
 int main() {
@@ -21,7 +22,9 @@ int main() {
 //    shell_sort();
 //    counting_sort();
 //    binary_search();
-    linear_search();
+//    linear_search();
+//    ternary_search();
+
     return 0;
 }
 
@@ -402,9 +405,94 @@ int it_ternary_search(int left, int right, int A[], int target){
         if (left < right) {
             if (right - left < absolutePrecision) {
                 for (int i = left; i <= right; i++) {
-
+                    if (A[i] == target) {
+                        return i;
+                    }
                 }
+                return -1;
             }
+
+            int oneThird = (left + right) / 3 + 1;
+            int twoThird = (left + right) * 2 / 3 + 1;
+
+            if (A[oneThird] == target) {
+                return oneThird;
+            } else if (A[twoThird] == target) {
+                return twoThird;
+            } else if (target > A[twoThird]) {
+                left = twoThird + 1;
+            } else if (target < A[oneThird]) {
+                right = oneThird - 1;
+            } else {
+                left = oneThird + 1; right = twoThird - 1;
+            }
+        } else {
+            return -1;
         }
     }
 }
+
+int rec_ternary_search(int left, int right, int A[], int target) {
+    if (left < right) {
+        if (right - left < absolutePrecision) {
+            for (int i = left; i < right; i++) {
+                if (A[i] == target){
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        int oneThird = (left + right) / 3 + 1;
+        int twoThird = (left + right) * 2 / 3 + 1;
+
+        if (A[oneThird] == target) {
+            return oneThird;
+        } else if (A[twoThird] == target) {
+            return twoThird;
+        } else if (A[oneThird] > target) {
+            left = oneThird - 1;
+            return rec_ternary_search(twoThird+1, right, A, target);
+        } else if (A[twoThird] < target) {
+            return rec_ternary_search(left, right-1, A, target);
+        }
+
+        return rec_ternary_search(oneThird+1, twoThird-1, A, target);
+    } else {
+        return -1;
+    }
+}
+
+
+void ternary_search(int N, int A[], int target) {
+    cout << it_ternary_search(0, N, A, target) << "\t";
+    cout << rec_ternary_search(0, N, A, target) << "\t";
+    cout << "\n";
+}
+
+int InterpolationSearch(int A[], int N, int x) {
+    int low = 0;
+    int high = N - 1;
+    while (low <= high) {
+        int mid = low + (((high - 1) * (x - A[low])) / (A[high] - A[low]));
+        if (x == A[mid]) {
+            return mid;
+        } else if (x < A[mid]) {
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+    return -1;
+}
+
+void interpolation_search(){
+    int A[] = {2, 4, 5, 7, 13, 14, 15, 23};
+    int x = 17;
+    int index = InterpolationSearch(A, 8, x);
+    if (index != -1)
+        std::cout << "Number " << x << " is at " << index;
+    else
+        std::cout << "Number " << x << " not found";
+}
+
