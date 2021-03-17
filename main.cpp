@@ -528,6 +528,46 @@ void djikstra() {
     for (int i = 0; i < m; i++) {
         scanf("%d%d%d", &x, &y, &l);
         graph[x].push_back(make_pair(l, y));
-
+        graph[y].push_back(make_pair(l, x));
     }
+    scanf("%d", &s);
+    for (int i = 1; i < n; i++) {
+        dis[i] = INF;
+    }
+    dij(graph, s, dis);
+
+    for (int i = 1; i < n; i++) {
+        if (dis[i] == INF) {
+            cout << "-1 ";
+        } else {
+            cout << dis[i] << "";
+        }
+    }
+}
+
+#include <bits/stdc++.h>
+class graph{
+    int v;
+    list<int> *adj;
+
+public:
+    graph(int v);
+    void addedge(int src, int dest);
+    void printgraph();
+    void bfs(int s);
+};
+
+graph::graph(int v) {
+    this->v = v;
+    this->adj = new list<int>[v];
+}
+
+void graph::addedge(int src, int dest) {
+    src--;
+    dest--;
+    adj[src].push_back(dest);
+}
+
+void graph::printgraph() {
+
 }
