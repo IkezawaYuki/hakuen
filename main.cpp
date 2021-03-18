@@ -9,9 +9,12 @@ void quick_sort();
 void insertion_sort();
 void shell_sort();
 void counting_sort();
-void binary_search();
-void linear_search();
+//void binary_search();
+//void linear_search();
 void ternary_search();
+void decimal();
+void decimal_to_binary();
+void decimal_to_hexa();
 
 
 int main() {
@@ -24,7 +27,8 @@ int main() {
 //    binary_search();
 //    linear_search();
 //    ternary_search();
-
+//    decimal_to_binary();
+    decimal_to_hexa();
     return 0;
 }
 
@@ -400,75 +404,75 @@ void get_input(){
     // todo
 }
 
-int it_ternary_search(int left, int right, int A[], int target){
-    while (1) {
-        if (left < right) {
-            if (right - left < absolutePrecision) {
-                for (int i = left; i <= right; i++) {
-                    if (A[i] == target) {
-                        return i;
-                    }
-                }
-                return -1;
-            }
+//int it_ternary_search(int left, int right, int A[], int target){
+//    while (1) {
+//        if (left < right) {
+//            if (right - left < absolutePrecision) {
+//                for (int i = left; i <= right; i++) {
+//                    if (A[i] == target) {
+//                        return i;
+//                    }
+//                }
+//                return -1;
+//            }
+//
+//            int oneThird = (left + right) / 3 + 1;
+//            int twoThird = (left + right) * 2 / 3 + 1;
+//
+//            if (A[oneThird] == target) {
+//                return oneThird;
+//            } else if (A[twoThird] == target) {
+//                return twoThird;
+//            } else if (target > A[twoThird]) {
+//                left = twoThird + 1;
+//            } else if (target < A[oneThird]) {
+//                right = oneThird - 1;
+//            } else {
+//                left = oneThird + 1; right = twoThird - 1;
+//            }
+//        } else {
+//            return -1;
+//        }
+//    }
+//}
+//
+//int rec_ternary_search(int left, int right, int A[], int target) {
+//    if (left < right) {
+//        if (right - left < absolutePrecision) {
+//            for (int i = left; i < right; i++) {
+//                if (A[i] == target){
+//                    return i;
+//                }
+//            }
+//            return -1;
+//        }
+//
+//        int oneThird = (left + right) / 3 + 1;
+//        int twoThird = (left + right) * 2 / 3 + 1;
+//
+//        if (A[oneThird] == target) {
+//            return oneThird;
+//        } else if (A[twoThird] == target) {
+//            return twoThird;
+//        } else if (A[oneThird] > target) {
+//            left = oneThird - 1;
+//            return rec_ternary_search(twoThird+1, right, A, target);
+//        } else if (A[twoThird] < target) {
+//            return rec_ternary_search(left, right-1, A, target);
+//        }
+//
+//        return rec_ternary_search(oneThird+1, twoThird-1, A, target);
+//    } else {
+//        return -1;
+//    }
+//}
 
-            int oneThird = (left + right) / 3 + 1;
-            int twoThird = (left + right) * 2 / 3 + 1;
 
-            if (A[oneThird] == target) {
-                return oneThird;
-            } else if (A[twoThird] == target) {
-                return twoThird;
-            } else if (target > A[twoThird]) {
-                left = twoThird + 1;
-            } else if (target < A[oneThird]) {
-                right = oneThird - 1;
-            } else {
-                left = oneThird + 1; right = twoThird - 1;
-            }
-        } else {
-            return -1;
-        }
-    }
-}
-
-int rec_ternary_search(int left, int right, int A[], int target) {
-    if (left < right) {
-        if (right - left < absolutePrecision) {
-            for (int i = left; i < right; i++) {
-                if (A[i] == target){
-                    return i;
-                }
-            }
-            return -1;
-        }
-
-        int oneThird = (left + right) / 3 + 1;
-        int twoThird = (left + right) * 2 / 3 + 1;
-
-        if (A[oneThird] == target) {
-            return oneThird;
-        } else if (A[twoThird] == target) {
-            return twoThird;
-        } else if (A[oneThird] > target) {
-            left = oneThird - 1;
-            return rec_ternary_search(twoThird+1, right, A, target);
-        } else if (A[twoThird] < target) {
-            return rec_ternary_search(left, right-1, A, target);
-        }
-
-        return rec_ternary_search(oneThird+1, twoThird-1, A, target);
-    } else {
-        return -1;
-    }
-}
-
-
-void ternary_search(int N, int A[], int target) {
-    cout << it_ternary_search(0, N, A, target) << "\t";
-    cout << rec_ternary_search(0, N, A, target) << "\t";
-    cout << "\n";
-}
+//void ternary_search(int N, int A[], int target) {
+//    cout << it_ternary_search(0, N, A, target) << "\t";
+//    cout << rec_ternary_search(0, N, A, target) << "\t";
+//    cout << "\n";
+//}
 
 int InterpolationSearch(int A[], int N, int x) {
     int low = 0;
@@ -582,9 +586,41 @@ T maxt(T x, T y) {
 }
 
 
-int decimal_to_binary() {
+void decimal_to_binary() {
     int number;
     cout << "enter the number:";
     cin >> number;
+    int remainder, binary = 0, var = 1;
+    do {
+        remainder = number % 2;
+        number = number / 2;
+        binary = binary + (remainder * var);
+        var = var * 10;
+    } while(number > 0);
+    cout << "the binary is :";
+    cout << binary;
+    cout << endl;
+}
+
+void decimal_to_hexa(){
+    int valueToConvert = 0;
+    int hexArray[8];
+    int i = 0;
+    char HexValue[] = "0123456789ABCDEF";
+
+    cout << "Enter a Decimal Value" << endl;
+    cin >> valueToConvert;
+
+    while (valueToConvert > 15) {
+        hexArray[i++] = valueToConvert % 16;
+        valueToConvert /= 16;
+    }
+    hexArray[i] = valueToConvert;
+
+    cout << "Hex Value: ";
+    while (i >= 0) {
+        cout << HexValue[hexArray[i--]];
+    }
+    cout << endl;
 
 }
