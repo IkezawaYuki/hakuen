@@ -544,30 +544,47 @@ void djikstra() {
         }
     }
 }
+//
+//#include <bits/stdc++.h>
+//class graph{
+//    int v;
+//    list<int> *adj;
+//
+//public:
+//    graph(int v);
+//    void addedge(int src, int dest);
+//    void printgraph();
+//    void bfs(int s);
+//};
+//
+//graph::graph(int v) {
+//    this->v = v;
+//    this->adj = new list<int>[v];
+//}
+//
+//void graph::addedge(int src, int dest) {
+//    src--;
+//    dest--;
+//    adj[src].push_back(dest);
+//}
+//
+//void graph::printgraph() {
+//
+//}
 
-#include <bits/stdc++.h>
-class graph{
-    int v;
-    list<int> *adj;
-
-public:
-    graph(int v);
-    void addedge(int src, int dest);
-    void printgraph();
-    void bfs(int s);
-};
-
-graph::graph(int v) {
-    this->v = v;
-    this->adj = new list<int>[v];
+template <class T>
+T maxt(T x, T y) {
+    if (x > y) {
+        return x;
+    } else {
+        return y;
+    }
 }
 
-void graph::addedge(int src, int dest) {
-    src--;
-    dest--;
-    adj[src].push_back(dest);
-}
 
-void graph::printgraph() {
+int decimal_to_binary() {
+    int number;
+    cout << "enter the number:";
+    cin >> number;
 
 }
