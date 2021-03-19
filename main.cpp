@@ -667,5 +667,29 @@ void show(){
     for (int i = 0; i < T.top; i++) {
         cout << T.value[i] << "\t";
     }
+}
+
+void mov(tower &From, tower &To) {
+    --From.top;
+    To.value[To.top] = From.value[From.top];
+    ++To.top;
+}
+
+void TH(int n, tower &From, tower &Using, tower &To) {
+    if (n == 1) {
+        mov(From, To);
+        show();
+    } else {
+        TH(n-1, From, To, Using);
+        mov(From, To);
+        show();
+        TH(n-1, Using, From, To);
+    }
+}
+
+void tower_of_hanoi() {
+    F.top = 0;
+    U.top = 0;
+    T.top = 0;
 
 }
