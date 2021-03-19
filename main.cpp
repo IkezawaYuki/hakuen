@@ -15,6 +15,7 @@ void ternary_search();
 void decimal();
 void decimal_to_binary();
 void decimal_to_hexa();
+void euclidean();
 
 
 int main() {
@@ -28,7 +29,8 @@ int main() {
 //    linear_search();
 //    ternary_search();
 //    decimal_to_binary();
-    decimal_to_hexa();
+//    decimal_to_hexa();
+    euclidean();
     return 0;
 }
 
@@ -622,5 +624,48 @@ void decimal_to_hexa(){
         cout << HexValue[hexArray[i--]];
     }
     cout << endl;
+}
+
+int gcd(int a, int b) {
+    if (a == 0) {
+        return b;
+    }
+    if (b == 0) {
+        return a;
+    }
+
+    if (a == b) {
+        return a;
+    }
+    if (a > b) {
+        return gcd(a-b, b);
+    }
+    return gcd(a, b-a);
+}
+
+void euclidean(){
+    int a = 98;
+    int b = 57;
+    cout << "GCD of " << a << " and " << b << " is " << gcd(a, b);
+}
+
+struct tower {
+    int value[10];
+    int top;
+} F, U, T;
+
+void show(){
+    cout << "\\n\\n\\tF : ";
+    for (int i = 0; i < F.top; i++) {
+        cout << F.value[i] << "\t";
+    }
+    cout << "\n\tU : ";
+    for (int i = 0; i < U.top; i++) {
+        cout << U.value[i] << "\t";
+    }
+    cout << "\n\tU : ";
+    for (int i = 0; i < T.top; i++) {
+        cout << T.value[i] << "\t";
+    }
 
 }
