@@ -16,7 +16,9 @@ void decimal();
 void decimal_to_binary();
 void decimal_to_hexa();
 void euclidean();
-
+void tower_of_hanoi();
+void palindrome();
+void hundred_doors();
 
 int main() {
 //    bubble_sort();
@@ -30,7 +32,10 @@ int main() {
 //    ternary_search();
 //    decimal_to_binary();
 //    decimal_to_hexa();
-    euclidean();
+//    euclidean();
+//    tower_of_hanoi();
+//    palindrome();
+    hundred_doors();
     return 0;
 }
 
@@ -655,7 +660,7 @@ struct tower {
 } F, U, T;
 
 void show(){
-    cout << "\\n\\n\\tF : ";
+    cout << "\n\n\tF : ";
     for (int i = 0; i < F.top; i++) {
         cout << F.value[i] << "\t";
     }
@@ -691,5 +696,62 @@ void tower_of_hanoi() {
     F.top = 0;
     U.top = 0;
     T.top = 0;
+
+    int no;
+    cout << "\nEnter number of discs : ";
+    cin >> no;
+
+    for (int i = 0; i < no; i++) {
+        F.value[F.top++] = i;
+    }
+
+    show();
+    TH(no, F, U, T);
+}
+
+#include <algorithm>
+
+void palindrome(){
+    int num;
+    cout << "Enter number = ";
+    cin >> num;
+
+    string s1 = to_string(num);
+    string s2 = s1;
+
+    reverse(s1.begin(), s1.end());
+
+    if (s1 == s2) {
+        cout << "true";
+    } else {
+        cout << "false";
+    }
+}
+
+void print(bool door[]) {
+    cout << "Open Doors:" << endl;
+    for (int num = 0; num < 100; num++) {
+        if (door[num] == false) {
+            cout << "Door #" << num+1 << endl;
+        }
+    }
+}
+
+void hundred_doors(){
+    bool Doors[100] = {false};
+    for (int pass = 1; pass < 101; pass++) {
+        for (int num = pass - 1; num < 100; num += pass) {
+            if (Doors[num] == true) {
+                Doors[num] = false;
+            } else {
+                Doors[num] = true;
+            }
+        }
+    }
+    print(Doors);
+}
+
+string bottles_of_beer(int n) {
+    stringstream out;
 
 }
