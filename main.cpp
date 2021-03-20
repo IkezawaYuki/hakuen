@@ -751,7 +751,39 @@ void hundred_doors(){
     print(Doors);
 }
 
+#include <string>
+#include <sstream>
+
+
 string bottles_of_beer(int n) {
     stringstream out;
+    if (n == 0) {
+        out << "one bottle";
+    }
+    if (n == 1) {
+        out << "no more bottles";
+    }
+    if (n > 1) {
+        out << n << "bottles";
+    }
+    out << "of beer";
+    return out.str();
+}
 
+#include <vector>
+
+template<typename T>
+T kadane_method(const vector<T>& v) {
+    T ret = 0;
+    for_each(v.begin(), v.end(), [c_max = 0, max = 0, &ret](T m) mutable {
+        c_max = c_max + m;
+        if (c_max < 0) {
+            c_max = 0;
+        }
+        if (max < c_max){
+            max = c_max;
+        }
+        ret = max;
+    });
+    return ret;
 }
