@@ -20,24 +20,25 @@ void tower_of_hanoi();
 void palindrome();
 void hundred_doors();
 
-int main() {
-//    bubble_sort();
-//    selection_sort();
-//    merge_sort();
-//    insertion_sort();
-//    shell_sort();
-//    counting_sort();
-//    binary_search();
-//    linear_search();
-//    ternary_search();
-//    decimal_to_binary();
-//    decimal_to_hexa();
-//    euclidean();
-//    tower_of_hanoi();
-//    palindrome();
-    hundred_doors();
-    return 0;
-}
+//int main() {
+////    bubble_sort();
+////    selection_sort();
+////    merge_sort();
+////    insertion_sort();
+////    shell_sort();
+////    counting_sort();
+////    binary_search();
+////    linear_search();
+////    ternary_search();
+////    decimal_to_binary();
+////    decimal_to_hexa();
+////    euclidean();
+////    tower_of_hanoi();
+////    palindrome();
+////    hundred_doors();
+//
+//    return 0;
+//}
 
 void insertion_sort(){
     int n;
@@ -531,6 +532,7 @@ int dij(vector<pair<int, int>> *v, int s, int *dis) {
             }
         }
     }
+    return u;
 }
 
 void djikstra() {
@@ -771,6 +773,7 @@ string bottles_of_beer(int n) {
 }
 
 #include <vector>
+#include <cstring>
 
 template<typename T>
 T kadane_method(const vector<T>& v) {
@@ -786,4 +789,123 @@ T kadane_method(const vector<T>& v) {
         ret = max;
     });
     return ret;
+}
+
+class Point {
+private:
+    int x;
+    int y;
+public:
+    Point(int a = 0, int b = 0) {x = a, y = b;}
+    void setX(int a) {x = a;}
+    void setY(int b) {y = b;}
+    void show(){cout << " x:" << x << " y:" << y << '\n';}
+    Point operator++();
+    Point operator++(int d);
+    friend Point operator+(Point p1, Point p2);
+    friend Point operator+(Point p, int a);
+    friend Point operator+(int a, Point p);
+};
+
+Point Point::operator++() {
+    x++;
+    y++;
+    return *this;
+}
+
+Point Point::operator++(int d) {
+    Point p = *this;
+    x++;
+    y++;
+    return p;
+}
+
+Point operator+(Point p1, Point p2) {
+    Point tmp;
+    tmp.x = p1.x + p2.x;
+    tmp.y = p1.y + p2.y;
+    return tmp;
+}
+
+Point operator+(Point p, int a) {
+    Point tmp;
+    tmp.x = p.x + a;
+    tmp.y = p.y + a;
+    return tmp;
+}
+
+Point operator+(int a, Point p) {
+    Point tmp;
+    tmp.x = p.x + a;
+    tmp.y = p.y + a;
+    return tmp;
+}
+
+class Car{
+private:
+    int num;
+    double gas;
+    char* pName;
+public:
+    Car(const char* pN, int n, double g);
+    ~Car();
+    Car(const Car& c);
+    Car& operator=(const Car& c);
+};
+
+Car::Car(const char* pN, int n, double g){
+    pName = new char[strlen(pN)+1];
+    strcpy(pName, pN);
+    num = n;
+    gas = g;
+    cout << pName << "を作成しました。\n";
+}
+
+Car::~Car() {
+    cout << pName << "を破棄します。\n";
+    delete[] pName;
+}
+
+Car::Car(const Car &c) {
+    cout << c.pName << "で初期化します。\n";
+    pName = new char[strlen(c.pName) + strlen("のコピー1")+1];
+    strcpy(pName, c.pName);
+    strcat(pName, "のコピー");
+    num = c.num;
+    gas = c.gas;
+}
+
+Car& Car::operator=(const Car &c) {
+    cout << pName << "に" << c.pName << "を代入します。\n";
+    if (this != &c) {
+        delete[] pName;
+        pName = new char[strlen(c.pName)+strlen("のコピー")+1];
+        strcpy(pName, c.pName);
+        strcat(pName, "のコピー2");
+        num = c.num;
+        gas = c.gas;
+    }
+    return *this;
+}
+
+
+
+int main(){
+    Point p1(1, 2);
+    Point p2(3, 6);
+    p1 = p1+p2;
+    p1++;
+    p1 = p1+3;
+    p2 = 3+p2;
+
+    p1.show();
+    p2.show();
+
+    Car mycar("mycar", 1234, 25.5);
+    Car car1 = mycar;
+
+    Car car2("car2", 0,0);
+    car2 = mycar;
+
+    return 0;
 }
