@@ -3,4 +3,4 @@ project(hakuen)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(hakuen main.cpp Sample2.cpp)
+add_executable(hakuen main.cpp)
