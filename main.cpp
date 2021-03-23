@@ -28,5 +28,10 @@ void dfs(int v, int p = -1) {
 int main() {
     cin >> N;
 
+    w.resize(N);
+    for (int i = 0; i < N; ++i) cin >> w[i];
+    G.clear(); G.resize(N);
+    for (int i = 0; i < N - 1; ++i) {
 
+    }
 };
