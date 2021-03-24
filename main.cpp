@@ -32,6 +32,15 @@ int main() {
     for (int i = 0; i < N; ++i) cin >> w[i];
     G.clear(); G.resize(N);
     for (int i = 0; i < N - 1; ++i) {
-
+        int a, b;
+        cin >> a >> b;
+        G[a].push_back(b);
+        G[b].push_back(a);
     }
+
+    int root = 0;
+    dp1.assign(N, 0), dp2.assign(N, 0);
+    dfs(root);
+
+    cout << max(dp1[root], dp2[root]) << endl;
 };
