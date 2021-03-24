@@ -1,46 +1,42 @@
 #include <iostream>
-#include <vector>
-#include <cmath>
 
 using namespace std;
-using Graph = vector<vector<int>>;
 
-int N;
-vector<long long> w;
-Graph G;
+struct product {
+    int id;
+    int price;
+    int stock;
+};
 
-vector<int> dp1, dp2;
+struct S{
+    int a;
+    int b;
+    int c;
+};
 
-void dfs(int v, int p = -1) {
-    for (auto ch : G[v]) {
-        if (ch == p) continue;
-        dfs(ch, v);
-    }
+union U {
+    int a;
+    int b;
+    int c;
+};
 
-    dp1[v] = 0, dp2[v] = w[v];
-    for (auto ch : G[v]) {
-        if (ch == p) continue;
-        dp1[v] += max(dp1[ch], dp2[ch]);
-        dp2[v] += dp1[ch];
-    }
+void show_product(product product) {
+    std::cout << "商品ID： " << product.id << std::endl;
+    std::cout << "単価： " << product.price<< std::endl;
+    std::cout << "在庫数： " << product.stock << std::endl;
 }
 
-int main() {
-    cin >> N;
+int main(){
+    product pen = {
+            0, 100, 200,
+    };
+    show_product(pen);
 
-    w.resize(N);
-    for (int i = 0; i < N; ++i) cin >> w[i];
-    G.clear(); G.resize(N);
-    for (int i = 0; i < N - 1; ++i) {
-        int a, b;
-        cin >> a >> b;
-        G[a].push_back(b);
-        G[b].push_back(a);
-    }
+    U u;
 
-    int root = 0;
-    dp1.assign(N, 0), dp2.assign(N, 0);
-    dfs(root);
 
-    cout << max(dp1[root], dp2[root]) << endl;
-};
+    cout << &u.a << endl;
+    cout << &u.b << endl;
+    cout << &u.c << endl;
+
+}
