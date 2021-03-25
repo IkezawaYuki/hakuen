@@ -1,50 +1,62 @@
 #include <iostream>
-
 using namespace std;
 
-struct product {
+class product {
     int id;
     int price;
     int stock;
+
+public:
+    int get_id();
+    void set_id(int new_id);
+
+    int get_price();
+    void set_price(int new_price);
+
+    int get_stock();
+    void set_stock(int new_stock);
 };
 
-struct S{
-    int a;
-    int b;
-    int c;
-};
-
-union U {
-    int a;
-    int b;
-    int c;
-};
-
-void show_product(product product) {
-    std::cout << "商品ID： " << product.id << std::endl;
-    std::cout << "単価： " << product.price<< std::endl;
-    std::cout << "在庫数： " << product.stock << std::endl;
+int product::get_id() {
+    return id;
 }
 
-enum class Category{
-    value1,
-    value2,
-    value3 = 100,
-    value4,
-};
+void product::set_id(int new_id) {
+    id = new_id;
+}
+
+int product::get_price() {
+    return price;
+}
+
+void product::set_price(int new_price) {
+    if (new_price < 0) {
+        cout << "エラー：単価は0以上にしてください" << endl;
+        return;
+    }
+    price = new_price;
+}
+
+int product::get_stock() {
+    return stock;
+}
+
+void product::set_stock(int new_stock) {
+    if (new_stock < 0) {
+        cout << "エラー：在庫数は0以上にしてください" << endl;
+        return;
+    }
+    stock = new_stock;
+}
 
 int main(){
-    product pen = {
-            0, 100, 200,
-    };
-    show_product(pen);
+    product pen;
+    pen.set_id(1);
+    pen.set_price(100);
+    pen.set_stock(200);
 
-    U u;
+    cout << pen.get_id() << endl;
+    cout << pen.get_price() << endl;
+    cout << pen.get_stock() << endl;
 
-
-    cout << &u.a << endl;
-    cout << &u.b << endl;
-    cout << &u.c << endl;
-
-    Category cat = Category::value3;
 }
