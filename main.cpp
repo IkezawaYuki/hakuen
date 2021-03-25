@@ -26,6 +26,13 @@ void show_product(product product) {
     std::cout << "在庫数： " << product.stock << std::endl;
 }
 
+enum class Category{
+    value1,
+    value2,
+    value3 = 100,
+    value4,
+};
+
 int main(){
     product pen = {
             0, 100, 200,
@@ -39,4 +46,5 @@ int main(){
     cout << &u.b << endl;
     cout << &u.c << endl;
 
+    Category cat = Category::value3;
 }
