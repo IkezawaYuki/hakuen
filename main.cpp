@@ -1,36 +1,58 @@
 #include <iostream>
 using namespace std;
 
-struct vector2d {
-    int x;
-    int y;
+class product {
+    int id;
+public:
+    int get_id() const;
+    int get_id();
+    void set_id(int new_id);
 };
 
-int add(int left, int right) {
-    return left + right;
+int product::get_id() const{
+    return id;
 }
 
-double add(double left, double right) {
-    return left + right;
+void product::set_id(int new_id) {
+    id = new_id;
 }
 
-vector2d add(vector2d left, vector2d right) {
-    vector2d v;
-    v.x = left.x + right.x;
-    v.y = left.y + right.y;
-    return v;
+class heavy_class {
+    int m_value;
+    mutable int m_cache;
+    mutable bool m_cache_valid;
+
+public:
+    int generate() const;
+    void set(int value);
+    int get() const;
+};
+
+int heavy_class::generate() const {
+    cout << "とても重いデータ生成関数" << endl;
+    return m_value;
+}
+
+void heavy_class::set(int value) {
+    m_cache_valid = false;
+    m_value = value;
+}
+
+int heavy_class::get() const {
+    if (m_cache_valid) {
+        return m_cache;
+    }
+    m_cache = generate();
+    m_cache_valid = true;
+    return m_cache;
 }
 
 int main(){
-    int integer = add(1, 2);
-    cout << integer << endl;
-
-    double floating = add(3.14, 42.195);
-    cout << floating << endl;
-
-    vector2d v = {1, 2};
-    vector2d u = {-3, 4};
-
-    vector2d w = add(v, u);
-    cout << w.x << ", " << w.y << endl;
+    heavy_class heavy_object;
+    heavy_object.set(100);
+    cout << heavy_object.get() << endl;
+    cout << heavy_object.get() << endl;
+    heavy_object.set(200);
+    cout << heavy_object.get() << endl;
+    cout << heavy_object.get() << endl;
 }
