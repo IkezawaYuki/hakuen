@@ -1,25 +1,36 @@
 #include <iostream>
 using namespace std;
 
+struct vector2d {
+    int x;
+    int y;
+};
+
+int add(int left, int right) {
+    return left + right;
+}
+
+double add(double left, double right) {
+    return left + right;
+}
+
+vector2d add(vector2d left, vector2d right) {
+    vector2d v;
+    v.x = left.x + right.x;
+    v.y = left.y + right.y;
+    return v;
+}
+
 int main(){
-    int value = 42;
-    int other = 0;
-    int* pointer = &value;
-    int& reference = value;
+    int integer = add(1, 2);
+    cout << integer << endl;
 
-    cout << "valueのアドレスは" << &value << "で、値は" << value << "です" << endl;
-    cout << "otherのアドレスは" << &other << "で、値は" << other << "です" << endl;
-    cout << "pointerのアドレスは" << pointer << "で、値は" << *pointer << "です" << endl;
-    cout << "referenceのアドレスは" << &reference << "で、値は" << reference << "です" << endl;
+    double floating = add(3.14, 42.195);
+    cout << floating << endl;
 
-    pointer = &other;
-    reference = other;
+    vector2d v = {1, 2};
+    vector2d u = {-3, 4};
 
-    cout << endl;
-
-    cout << "valueのアドレスは" << &value << "で、値は" << value << "です" << endl;
-    cout << "otherのアドレスは" << &other << "で、値は" << other << "です" << endl;
-    cout << "pointerのアドレスは" << pointer << "で、値は" << *pointer << "です" << endl;
-    cout << "referenceのアドレスは" << &reference << "で、値は" << reference << "です" << endl;
-
+    vector2d w = add(v, u);
+    cout << w.x << ", " << w.y << endl;
 }
