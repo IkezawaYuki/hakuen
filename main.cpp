@@ -1,71 +1,46 @@
 #include <iostream>
+#include <string>
+
 using namespace std;
 
-class product {
-    int id;
-public:
-    int get_id() const;
-    int get_id();
-    void set_id(int new_id);
-};
-
-int product::get_id() const{
-    return id;
-}
-
-void product::set_id(int new_id) {
-    id = new_id;
-}
-
-class heavy_class {
-    int m_value;
-    mutable int m_cache;
-    mutable bool m_cache_valid;
+class person {
+    std::string m_name;
+    int m_age;
 
 public:
-    int generate() const;
-    void set(int value);
-    int get() const;
+    person();
+    void set_name(std::string name);
+    void set_age(int age);
+
+    std::string name() const;
+    int age() const;
 };
 
-int heavy_class::generate() const {
-    cout << "とても重いデータ生成関数" << endl;
-    return m_value;
+person::person():m_age(-1) {
+    cout << "コンストラクター呼び出し" << endl;
 }
 
-void heavy_class::set(int value) {
-    m_cache_valid = false;
-    m_value = value;
+void person::set_name(std::string name) {
+    m_name = name;
 }
 
-int heavy_class::get() const {
-    if (m_cache_valid) {
-        return m_cache;
-    }
-    m_cache = generate();
-    m_cache_valid = true;
-    return m_cache;
+void person::set_age(int age) {
+    m_age = age;
 }
 
-class A {
-    int v;
-public:
-    void set(int value);
-    int get() const;
-};
-
-void A::set(int value) {
-    v = value;
+std::string person::name() const {
+    return m_name;
 }
 
-int A::get() const{
-    return v;
+int person::age() const {
+    return m_age;
 }
 
 int main(){
-    A a;
-    a.set(42);
-
-    const A& ca = a;
-    ca.get();
+    person bob;
+    cout << "初期化直後の年齢: " << bob.age() << endl;
+    bob.set_name("bob");
+    bob.set_age(20);
+    cout << "名前:" << bob.name() << endl;
+    cout << "年齢:" << bob.age() << endl;
 }
