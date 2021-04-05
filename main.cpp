@@ -2,36 +2,27 @@
 
 using namespace std;
 
-class S{
+class Base {
 public:
-    int answer = 42;
-    float pi{ 3.141592f };
+    void foo();
 };
 
-class Book {
-    string title = "";
-    int page = 0;
+void Base::foo(){
+    cout << "Base::foo()" << endl;
+}
+
+class Derived : public Base {
 public:
-    Book();
-    explicit Book(string title, int page);
-    void show() const;
+    using Base::foo;
+    void foo(int v);
 };
 
-Book::Book() :title("untitled") {
-
-}
-
-Book::Book(string title, int page) :title(title), page(page) {
-
-}
-
-void Book::show() const {
-    cout << title << " " << page << "ページ" << endl;
+void Derived::foo(int v) {
+    cout << "Derived::foo(" << v << ")" << endl;
 }
 
 int main(){
-    Book nsdmi;
-    nsdmi.show();
-    Book old_edition{"独習C++", 543};
-    old_edition.show();
+    Derived derived;
+    derived.foo();
+    derived.foo(42);
 }
