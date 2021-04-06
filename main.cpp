@@ -2,27 +2,62 @@
 
 using namespace std;
 
-class Base {
+class Shape {
 public:
-    void foo();
+    virtual float area() const = 0;
+    virtual float perimeter() const = 0;
 };
 
-void Base::foo(){
-    cout << "Base::foo()" << endl;
+class Rectangle : public Shape {
+    float height;
+    float width;
+
+public:
+    explicit Rectangle(float height, float width);
+    float area() const override;
+    float perimeter() const override;
+};
+
+Rectangle::Rectangle(float height, float width): height(height), width(width){
+
 }
 
-class Derived : public Base {
+float Rectangle::area() const {
+    return height * width;
+}
+
+float Rectangle::perimeter() const {
+    return 2 * (height + width);
+}
+
+class Circle : public Shape {
+    float r;
 public:
-    using Base::foo;
-    void foo(int v);
+    explicit Circle(float r);
+    float area() const override;
+    float perimeter() const override;
 };
 
-void Derived::foo(int v) {
-    cout << "Derived::foo(" << v << ")" << endl;
+Circle::Circle(float r) : r(r) {
+
+}
+
+float Circle::area() const {
+    return r * r * 3.14f;
+}
+
+float Circle::perimeter() const {
+    return 2 * r * 3.14f;
 }
 
 int main(){
-    Derived derived;
-    derived.foo();
-    derived.foo(42);
+    Rectangle rect(10, 2);
+    cout << "rect" << endl;
+    cout << " Area: " << rect.area() << endl;
+    cout << " Perimeter: " << rect.perimeter() << endl;
+
+    Circle circle(4);
+    cout << "circle" << endl;
+    cout << " Area: " << circle.area() << endl;
+    cout << " Perimeter: " << circle.perimeter() << endl;
 }
