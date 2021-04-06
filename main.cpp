@@ -50,14 +50,57 @@ float Circle::perimeter() const {
     return 2 * r * 3.14f;
 }
 
-int main(){
-    Rectangle rect(10, 2);
-    cout << "rect" << endl;
-    cout << " Area: " << rect.area() << endl;
-    cout << " Perimeter: " << rect.perimeter() << endl;
+class Base {
+public:
+    virtual string name() const;
+};
 
-    Circle circle(4);
-    cout << "circle" << endl;
-    cout << " Area: " << circle.area() << endl;
-    cout << " Perimeter: " << circle.perimeter() << endl;
+string Base::name() const{
+    return "Base";
+}
+
+class Derived : public Base {
+public:
+    string name() const override;
+};
+
+string Derived::name() const {
+    return "Derived";
+}
+
+class A {
+public:
+    void foo();
+};
+
+void A::foo() {
+    cout << "A::foo()" << endl;
+}
+
+void call_foo(A* pa) {
+    pa -> foo();
+}
+
+class B {
+    int value;
+public:
+    void set_value(int value);
+    int get_value() const;
+};
+
+void B::set_value(int value) {
+    this->value = value;
+}
+
+int B::get_value() const {
+    return value;
+}
+
+int main(){
+    A a;
+    call_foo(&a);
+
+    B b;
+    b.set_value(42);
+    cout << b.get_value() << endl;
 }
