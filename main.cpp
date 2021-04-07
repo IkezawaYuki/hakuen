@@ -1,38 +1,53 @@
 #include <iostream>
+
 using namespace std;
 
-class A{
-    union {
-        int i;
-        float f;
-    };
-    long l;
+class vector3d{
+    float x;
+    float y;
+    float z;
+
 public:
-    A();
-    int get_i() const;
-    void set_f(float f);
-    long get_l() const;
+    vector3d();
+    explicit vector3d(float x, float y, float z);
+    friend vector3d add(const vector3d& lhs, const vector3d& rhs);
+    void dump() const;
 };
 
-A::A() : i(0xdeadbeef), l(0xc0ffee) {
-    cout << "&f: " << &f << endl
-         << "&i: " << &i << endl
-         << "&l: " << &l << endl;
+vector3d::vector3d() : vector3d(0, 0, 0) {
+
 }
 
-int A::get_i() const {
-    return i;
+vector3d::vector3d(float x, float y, float z) :x(x), y(y), z(z){
+
 }
 
-void A::set_f(float f) {
-    this->f = f;
+vector3d add(const vector3d& lhs, const vector3d& rhs) {
+    vector3d result;
+    result.x = lhs.x + rhs.x;
+    result.y = lhs.y + rhs.y;
+    result.z = lhs.z + rhs.z;
+    return result;
 }
 
-long A::get_l() const {
-    return l;
+void vector3d::dump() const {
+    cout << x << ", " << y << ", " << z << endl;
 }
+
+class S{
+public:
+    static int num;
+};
+
+int S::num = 123;
 
 int main(){
-    A a;
-    cout << "i: " << hex << a.get_i() << endl;
+    vector3d a(1,1,1), b(1,2,3);
+    vector3d c = add(a, b);
+    c.dump();
+
+    cout << S::num << endl;
+    S::num = 456;
+    S s;
+    cout << s.num << endl;
 }
