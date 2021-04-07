@@ -1,106 +1,60 @@
 #include <iostream>
 
-using namespace std;
+class Base{
+    int value = 0;
 
-class Shape {
-public:
-    virtual float area() const = 0;
-    virtual float perimeter() const = 0;
-};
-
-class Rectangle : public Shape {
-    float height;
-    float width;
-
-public:
-    explicit Rectangle(float height, float width);
-    float area() const override;
-    float perimeter() const override;
-};
-
-Rectangle::Rectangle(float height, float width): height(height), width(width){
-
-}
-
-float Rectangle::area() const {
-    return height * width;
-}
-
-float Rectangle::perimeter() const {
-    return 2 * (height + width);
-}
-
-class Circle : public Shape {
-    float r;
-public:
-    explicit Circle(float r);
-    float area() const override;
-    float perimeter() const override;
-};
-
-Circle::Circle(float r) : r(r) {
-
-}
-
-float Circle::area() const {
-    return r * r * 3.14f;
-}
-
-float Circle::perimeter() const {
-    return 2 * r * 3.14f;
-}
-
-class Base {
-public:
-    virtual string name() const;
-};
-
-string Base::name() const{
-    return "Base";
-}
-
-class Derived : public Base {
-public:
-    string name() const override;
-};
-
-string Derived::name() const {
-    return "Derived";
-}
-
-class A {
-public:
-    void foo();
-};
-
-void A::foo() {
-    cout << "A::foo()" << endl;
-}
-
-void call_foo(A* pa) {
-    pa -> foo();
-}
-
-class B {
-    int value;
 public:
     void set_value(int value);
-    int get_value() const;
+    int get_value()const;
 };
 
-void B::set_value(int value) {
+void Base::set_value(int value) {
     this->value = value;
 }
 
-int B::get_value() const {
+int Base::get_value() const {
     return value;
 }
 
-int main(){
-    A a;
-    call_foo(&a);
+struct Derived: Base{
+    Derived();
+    ~Derived();
+};
 
-    B b;
-    b.set_value(42);
-    cout << b.get_value() << endl;
+Derived::Derived() {
+    std::cout << "コンストラクター" << std::endl;
+}
+
+Derived::~Derived() {
+    std::cout << "デストラクター" << std::endl;
+}
+
+union U {
+    float f;
+private:
+    int i;
+public:
+    U();
+    int get_i() const;
+};
+
+U::U() : i(0xdeadbeef) {
+    std::cout << "&f: " << &f << std::endl
+    << "&i: " << &i << std::endl;
+}
+
+int U::get_i() const {
+    return this->i;
+}
+
+int main(){
+    Derived d;
+    std::cout << d.get_value() << std::endl;
+    d.set_value(42);
+    std::cout << d.get_value() << std::endl;
+
+    U u;
+    std::cout << std::hex << u.get_i() << std::endl;
+    u.f = 2.71828f;
+    std::cout << std::hex << u.get_i() << std::endl;
 }
