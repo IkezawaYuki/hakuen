@@ -1,35 +1,68 @@
 #include <iostream>
+#include <vector>
 
-class Triangle{
-    int m_height;
-    int m_base_length;
+class A{
+    std::string m_name;
+    int m_value;
 
 public:
-    explicit Triangle(int height, int base_length);
-    int height() const;
-    int base_length() const;
+    explicit A(std::string name, int value);
+    explicit A(std::string name);
+    A();
+    void show() const;
 };
 
-Triangle::Triangle(int height, int base_length) :m_height(height), m_base_length(base_length) {
-
+A::A(std::string name, int value) :m_name(name), m_value(value)
+{
 }
 
-int Triangle::height() const {
-    return m_height;
+A::A(std::string name) :A(name, -1)
+{
 }
 
-int Triangle::base_length() const {
-    return m_base_length;
+A::A(): A("default")
+{
+}
+
+void A::show() const {
+    std::cout << m_name << " " << m_value << std::endl;
 }
 
 int main(){
-    Triangle triangles[] = {
-            Triangle{10, 20},
-            Triangle{20, 30},
-            Triangle{40, 50},
-    };
+    A a[4] =
+            {
+            A{"first", 42},
+            A{"second"},
 
-    for (auto tri: triangles) {
-        std::cout << "面積: " << (tri.base_length() * tri.height() / 2) << std::endl;
+            };
+
+    a[0].show();
+    a[1].show();
+    a[2].show();
+    a[3].show();
+
+    std::vector<int> empty;
+    std::cout << "empty.size(): " << empty.size() << std::endl;
+
+    std::vector<int> array = {10, 20, 30, 40, 50};
+    std::cout << "array.size(): " << array.size() << std::endl;
+
+
+    for (int i : array) {
+        std::cout << i << std::endl;
     }
+
+    array.push_back(42);
+    array.push_back(9);
+    for (int i : array) {
+        std::cout << i << std::endl;
+    }
+
+    std::cout  << std::endl;
+
+    array.pop_back();
+    for (int i : array) {
+        std::cout << i << std::endl;
+    }
+
 }
