@@ -1,42 +1,35 @@
 #include <iostream>
 
+class Triangle{
+    int m_height;
+    int m_base_length;
+
+public:
+    explicit Triangle(int height, int base_length);
+    int height() const;
+    int base_length() const;
+};
+
+Triangle::Triangle(int height, int base_length) :m_height(height), m_base_length(base_length) {
+
+}
+
+int Triangle::height() const {
+    return m_height;
+}
+
+int Triangle::base_length() const {
+    return m_base_length;
+}
+
 int main(){
-    int array[] = {0,1,2,3};
-    std::cout << "先頭のアドレス：" << &array[0] << std::endl;
+    Triangle triangles[] = {
+            Triangle{10, 20},
+            Triangle{20, 30},
+            Triangle{40, 50},
+    };
 
-    int* ptr = array;
-    std::cout << "ポインター：" << ptr << std::endl;
-    std::cout << "値：" << *ptr << std::endl;
-
-    std::cout << ptr[0] << std::endl;
-    std::cout << ptr[1] << std::endl;
-    std::cout << ptr[2] << std::endl;
-    std::cout << ptr[3] << std::endl;
-
-    ptr += 2;
-    std::cout << *ptr << std::endl;
-
-    ++ptr;
-    std::cout << *ptr << std::endl;
-
-    ptr -= 2;
-    std::cout << *ptr << std::endl;
-
-    --ptr;
-    std::cout << *ptr << std::endl;
-
-    for (int e : array){
-        std::cout << e << std::endl;
-    }
-
-    int (*pointer)[4] = &array;
-
-    for (int e : *pointer) {
-        std::cout << e << std::endl;
-    }
-
-    int (&ref)[4] = array;
-    for (int e : ref) {
-        std::cout << e << std::endl;
+    for (auto tri: triangles) {
+        std::cout << "面積: " << (tri.base_length() * tri.height() / 2) << std::endl;
     }
 }
