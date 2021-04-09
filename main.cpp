@@ -1,77 +1,42 @@
 #include <iostream>
 
-using namespace std;
-
-string get_message();
-
-class A{
-public:
-    ~A();
-};
-
-A::~A() {
-    cout << "デストラクター呼び出し" << endl;
-}
-
-void function_scope(int i) {
-    A a;
-    cout << "関数スコープ" << endl;
-    if (i > 0) {
-        return;
-    }
-    cout << "if文のあと" << endl;
-}
-
-
 int main(){
-    cout << "__FILE__:" << __FILE__ << endl;
-    cout << "__LINE__:" << __LINE__ << endl;
-    cout << "__func__:" << __func__ << endl;
-    cout << "__cplusplus:" << __cplusplus << endl;
-    int line = __LINE__;
-    cout << "line:" << line << ", __LINE__" << __LINE__ << endl;
+    int array[] = {0,1,2,3};
+    std::cout << "先頭のアドレス：" << &array[0] << std::endl;
 
-    auto msg = get_message();
-    cout << msg << endl;
+    int* ptr = array;
+    std::cout << "ポインター：" << ptr << std::endl;
+    std::cout << "値：" << *ptr << std::endl;
 
-    function_scope(10);
-    cout << endl;
-    function_scope(-10);
+    std::cout << ptr[0] << std::endl;
+    std::cout << ptr[1] << std::endl;
+    std::cout << ptr[2] << std::endl;
+    std::cout << ptr[3] << std::endl;
 
-    if (true) {
-        cout << "if文" << endl;
-        A a;
+    ptr += 2;
+    std::cout << *ptr << std::endl;
+
+    ++ptr;
+    std::cout << *ptr << std::endl;
+
+    ptr -= 2;
+    std::cout << *ptr << std::endl;
+
+    --ptr;
+    std::cout << *ptr << std::endl;
+
+    for (int e : array){
+        std::cout << e << std::endl;
     }
 
-    cout << endl;
+    int (*pointer)[4] = &array;
 
-    for (int i = 0; i < 5;i++) {
-        cout << "for文(" << i << ")" << endl;
-        A a;
+    for (int e : *pointer) {
+        std::cout << e << std::endl;
     }
 
-    cout << endl;
-
-    {
-        cout << "ただのスコープ" << endl;
-        A a;
+    int (&ref)[4] = array;
+    for (int e : ref) {
+        std::cout << e << std::endl;
     }
-
-    cout << endl;
-
-    cout << "main()関数の最後" << endl;
-
-    int i = 42;
-    {
-        int i = 72;
-
-        cout << "innner: " << &i << ": " << i << endl;
-        i = 0;
-    }
-
-    cout << "outer: " << &i << ": " << i << endl;
-}
-
-string get_message(){
-    return "hello, forward declaration";
 }
