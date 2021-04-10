@@ -1,116 +1,157 @@
 #include <iostream>
-#include <initializer_list>
 
-class Triangle
+class Marker
 {
-    float height;
-    float width;
-
 public:
-    explicit Triangle(float height, float width);
-    float area() const;
+    Marker();
+    ~Marker();
 };
 
-Triangle::Triangle(float height, float width) :height(height), width(width)
+Marker::Marker()
 {
+    std::cout << "コンストラクター" << this << std::endl;
 }
 
-float Triangle::area() const {
-    return height * width / 2;
+Marker::~Marker()
+{
+    std::cout << "デストラクター" << this << std::endl;
 }
 
-class Object{
+void copy(Marker m)
+{
+    std::cout << "copy: " << &m << std::endl;
+}
+
+void reference(const Marker& m) {
+    std::cout << "reference: " << &m << std::endl;
+}
+
+class Object
+{
     std::string name;
 public:
-    Object():Object("No Name"){}
-    explicit Object(std::string name) : name(name){}
-    ~Object();
-    void show_name() const;
+    Object(std::string name);
+    const std::string& get_name()const;
 };
 
-Object::~Object()
+Object::Object(std::string name) :name{name}
 {
-    std::cout << "Objectのデストラクター" << std::endl;
+    //
 }
 
-void Object::show_name()const {
-    std::cout << "object name: " << name << std::endl;
+const std::string & Object::get_name() const {
+    return name;
 }
 
-class A {
-    int m_v;
-    std::string m_n;
-public:
-    A(int, std::string);
-    A(float );
-};
-
-A::A(int v, std::string n):m_v(v), m_n{n}
-{
+int& id(int& i) {
+    return i;
 }
 
-A::A(float) : A{-1, "float"}
+class person
 {
-}
-
-class int_vector
-{
-    std::size_t m_size;
-    int* m_array;
+    std::string m_name;
+    int m_age;
+    person(int age) : m_age {age} {};
 
 public:
-    int_vector(std::initializer_list<int> init);
-    ~int_vector();
-    std::size_t size() const
-    {
-        return m_size;
-    }
-    int at(int n) const
-    {
-        return m_array[n];
-    }
+    person() : person{-1} {}
+    person(std::string name, int age) : m_name{name}, m_age{age} {}
+
+    person(person&& other);
+    const std::string& name() const{return m_name;}
+    int age() const {return m_age;}
 };
 
-int_vector::int_vector(std::initializer_list<int> init)
-    :m_size{init.size()}, m_array{new int [init.size()]}
+person::person(person&& other) :m_name{other.m_name}, m_age{other.m_age}
 {
-    for (std::size_t i = 0; i < init.size(); ++i)
+    std::cout << "ムーブコンストラクター呼び出し"<< std::endl;
+}
+
+class home
+{
+    int* m_land;
+public:
+    explicit home(std::size_t size) :m_land{new int[size]} {}
+    ~home(){delete [] m_land;}
+    home(home&& other);
+    int* land() const{ return m_land;}
+};
+
+home::home(home&& other) : m_land{other.m_land}
+{
+    other.m_land = nullptr;
+}
+
+int identity(int v)
+{
+    return v;
+}
+
+int square(int v){
+    return v * v;
+}
+
+void filtered_show(int (&array)[5], bool (*predicate)(int))
+{
+    for (int e : array)
     {
-        m_array[i] = init[i];
+        if (predicate(e))
+        {
+            std::cout << e << std::endl;
+        }
     }
 }
 
-int_vector::~int_vector()
-{
-    delete [] m_array;
+bool is_odd(int v) {
+    return (v % 2) == 1;
 }
 
-int main() {
-    Triangle* tri = new Triangle{10.0f, 5.0f};
-    std::cout << "三角形の面積:" << tri->area() << std::endl;
-    delete tri;
+bool is_less_than_5(int v)
+{
+    return v < 5;
+}
 
-    Object* obj = new Object[10]
-    {
-        Object{"first"},
-        Object{"second"},
-    };
+int main(){
+    Marker m;
+    std::cout << "値渡し前" << std::endl;
+    copy(m);
+    std::cout << "値渡し後" << std::endl;
 
-    obj[0].show_name();
-    obj[1].show_name();
-    obj[2].show_name();
+    std::cout << "参照渡し前" << std::endl;
+    reference(m);
+    std::cout << "参照渡し後" << std::endl;
 
-    delete [] obj;
+    Object obj{"とても大きなオブジェクト"};
+    const std::string& name = obj.get_name();
+    std::cout << name << std::endl;
 
-    A ap(42, "0");
-    A ab{42, "0"};
-    A bp = A(42, "0");
-    A bb = A{42, "0"};
-    A cb = {42,"0"};
-    A db = (42, 0.0);
+    int i = 42;
+    auto& j = id(i);
+    j = 0;
+    std::cout << i << std::endl;
 
-    int_vector iv = {0, 1, 2, 3, 4, 5};
-    std::cout << "iv.size() = " << iv.size() << std::endl;
-    std::cout << "iv.at(3) = " << iv.at(3) << std::endl;
+    person alice{"alice", 15};
+    person move{std::move(alice)};
 
+    std::cout << move.name() << std::endl;
+    std::cout << move.age() << std::endl;
+
+    home A{100};
+
+    std::cout << "Aの土地のアドレス" << A.land() << std::endl;
+
+    home B{std::move(A)};
+    std::cout << "Bの土地のアドレス" << B.land() << std::endl;
+    std::cout << "Aの土地のアドレス" << A.land() << std::endl;
+
+    int(*func) (int) = &identity;
+    std::cout << "func(4): " << func(4) << std::endl;
+
+    func = &square;
+    std::cout << "func(4): " << func(4) << std::endl;
+
+    int array[] = {5, 10, 3, 0, 1};
+    filtered_show(array, &is_odd);
+    std::cout << std::endl;
+    filtered_show(array, &is_less_than_5);
 }
