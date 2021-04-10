@@ -1,157 +1,217 @@
 #include <iostream>
 
-class Marker
+class Integer
 {
-public:
-    Marker();
-    ~Marker();
-};
-
-Marker::Marker()
-{
-    std::cout << "コンストラクター" << this << std::endl;
-}
-
-Marker::~Marker()
-{
-    std::cout << "デストラクター" << this << std::endl;
-}
-
-void copy(Marker m)
-{
-    std::cout << "copy: " << &m << std::endl;
-}
-
-void reference(const Marker& m) {
-    std::cout << "reference: " << &m << std::endl;
-}
-
-class Object
-{
-    std::string name;
-public:
-    Object(std::string name);
-    const std::string& get_name()const;
-};
-
-Object::Object(std::string name) :name{name}
-{
-    //
-}
-
-const std::string & Object::get_name() const {
-    return name;
-}
-
-int& id(int& i) {
-    return i;
-}
-
-class person
-{
-    std::string m_name;
-    int m_age;
-    person(int age) : m_age {age} {};
+    int value;
 
 public:
-    person() : person{-1} {}
-    person(std::string name, int age) : m_name{name}, m_age{age} {}
+    Integer(int value) : value{value} {}
 
-    person(person&& other);
-    const std::string& name() const{return m_name;}
-    int age() const {return m_age;}
+    Integer operator+(const Integer& other) const;
+    Integer operator-(const Integer& other) const;
+    Integer operator*(const Integer& other) const;
+    Integer operator/(const Integer& other) const;
+
+    Integer operator+() const;
+    Integer operator-() const;
+
+    Integer& operator++();
+    Integer& operator--();
+
+    Integer operator++(int);
+    Integer operator--(int);
+
+    Integer operator|(const Integer& rhs) const;
+    Integer operator&(const Integer& rhs) const;
+    Integer operator^(const Integer& rhs) const;
+
+    Integer operator~() const;
+
+    bool operator==(const Integer& rhs) const;
+    bool operator!=(const Integer& rhs) const;
+
+    bool operator<(const Integer& rhs) const;
+    bool operator>(const Integer& rhs) const;
+    bool operator<=(const Integer& rhs) const;
+    bool operator>=(const Integer& rhs) const;
+
+    void show() const;
 };
 
-person::person(person&& other) :m_name{other.m_name}, m_age{other.m_age}
-{
-    std::cout << "ムーブコンストラクター呼び出し"<< std::endl;
+bool Integer::operator==(const Integer& rhs) const{
+    return value == rhs.value;
 }
 
-class home
+bool Integer::operator!=(const Integer &rhs) const {
+    return !(*this == rhs.value);
+}
+
+bool Integer::operator>(const Integer &rhs) const {
+    return rhs < *this;
+}
+
+bool Integer::operator<=(const Integer &rhs) const {
+    return !(rhs < *this);
+}
+
+bool Integer::operator>=(const Integer &rhs) const {
+    return rhs <= *this;
+}
+
+
+bool Integer::operator<(const Integer &rhs) const {}
+
+Integer Integer::operator+(const Integer &other) const {
+    return Integer{value + other.value};
+}
+
+Integer Integer::operator-(const Integer &other) const {
+    return Integer{value - other.value};
+}
+
+Integer Integer::operator*(const Integer &other) const {
+    return Integer{value * other.value};
+}
+
+Integer Integer::operator/(const Integer &other) const {
+    return Integer{value / other.value};
+}
+
+Integer Integer::operator+() const {
+    return *this;
+}
+
+Integer Integer::operator-() const {
+    return Integer{-value};
+}
+
+Integer Integer::operator|(const Integer &rhs) const {
+    return Integer{value | rhs.value};
+}
+
+Integer Integer::operator&(const Integer &rhs) const {
+    return Integer{value & rhs.value};
+}
+
+Integer Integer::operator^(const Integer &rhs) const {
+    return Integer{value ^ rhs.value};
+}
+
+Integer Integer::operator~() const {
+    return Integer{~value};
+}
+
+void Integer::show() const
 {
-    int* m_land;
+    std::cout << "Integer.value = " << value << std::endl;
+}
+
+Integer& Integer::operator++() {
+    ++value;
+    return *this;
+}
+
+Integer& Integer::operator--(){
+    --value;
+    return *this;
+}
+
+Integer Integer::operator++(int){
+    auto tmp = *this;
+    ++*this;
+    return tmp;
+}
+
+Integer Integer::operator--(int){
+    auto tmp = *this;
+    --*this;
+    return tmp;
+}
+
+class Array
+{
+    int buffer[100];
 public:
-    explicit home(std::size_t size) :m_land{new int[size]} {}
-    ~home(){delete [] m_land;}
-    home(home&& other);
-    int* land() const{ return m_land;}
+    int& operator[](int index);
+    std::size_t size() const {return 100;}
 };
 
-home::home(home&& other) : m_land{other.m_land}
+int& Array::operator[](int index) {
+    return buffer[index];
+}
+
+class int_observer_ptr
 {
-    other.m_land = nullptr;
+    int* pointer;
+public:
+    explicit int_observer_ptr(int* pointer) : pointer{pointer} {}
+    int& operator*() const;
+};
+
+int& int_observer_ptr::operator*() const {
+    return *pointer;
 }
 
-int identity(int v)
+class A{
+    int value;
+public:
+    explicit A(int value) : value{value} {}
+    void show() const;
+};
+
+void A::show() const {
+    std::cout << "A.value: " << value << std::endl;
+}
+
+class A_observer_ptr
 {
-    return v;
+    A* pointer;
+public:
+    explicit A_observer_ptr(A* pointer) : pointer{pointer} {}
+    A& operator*() const;
+    A* operator->() const;
+};
+
+A& A_observer_ptr::operator*() const {
+    return *pointer;
 }
 
-int square(int v){
-    return v * v;
-}
-
-void filtered_show(int (&array)[5], bool (*predicate)(int))
-{
-    for (int e : array)
-    {
-        if (predicate(e))
-        {
-            std::cout << e << std::endl;
-        }
-    }
-}
-
-bool is_odd(int v) {
-    return (v % 2) == 1;
-}
-
-bool is_less_than_5(int v)
-{
-    return v < 5;
+A* A_observer_ptr::operator->() const {
+    return pointer;
 }
 
 int main(){
-    Marker m;
-    std::cout << "値渡し前" << std::endl;
-    copy(m);
-    std::cout << "値渡し後" << std::endl;
+    Integer x = 10;
+    Integer y = 3;
+    Integer z = 7;
 
-    std::cout << "参照渡し前" << std::endl;
-    reference(m);
-    std::cout << "参照渡し後" << std::endl;
+    auto v = x - -y + +z;
+    v.show();
 
-    Object obj{"とても大きなオブジェクト"};
-    const std::string& name = obj.get_name();
-    std::cout << name << std::endl;
+    Integer a = 10;
+    ++a;
 
-    int i = 42;
-    auto& j = id(i);
-    j = 0;
-    std::cout << i << std::endl;
+    ++a;
+    a.show();
 
-    person alice{"alice", 15};
-    person move{std::move(alice)};
+    --a;
+    a.show();
 
-    std::cout << move.name() << std::endl;
-    std::cout << move.age() << std::endl;
+    a++;
+    a.show();
 
-    home A{100};
+    a--;
+    a.show();
 
-    std::cout << "Aの土地のアドレス" << A.land() << std::endl;
+    Array array;
+    for (std::size_t i = 0; i < array.size(); ++i) {
+        array[i] = i;
+    }
+    std::cout << array[10] << std::endl;
 
-    home B{std::move(A)};
-    std::cout << "Bの土地のアドレス" << B.land() << std::endl;
-    std::cout << "Aの土地のアドレス" << A.land() << std::endl;
+    A k{42};
+    A_observer_ptr pointer{&k};
 
-    int(*func) (int) = &identity;
-    std::cout << "func(4): " << func(4) << std::endl;
-
-    func = &square;
-    std::cout << "func(4): " << func(4) << std::endl;
-
-    int array[] = {5, 10, 3, 0, 1};
-    filtered_show(array, &is_odd);
-    std::cout << std::endl;
-    filtered_show(array, &is_less_than_5);
+    (*pointer).show();
+    pointer->show();
 }
