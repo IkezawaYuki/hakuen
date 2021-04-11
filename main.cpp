@@ -1,21 +1,25 @@
 #include <iostream>
 
-class Base {
-public:
-    Base(){
-        std::cout << "デフォルトのコンストラクター" << std::endl;
-    }
+class Base{
+    virtual void method();
 
-    explicit Base(int i) {
-        std::cout << "引数付きのコンストラクター" << i << std::endl;
-    }
+public:
+    void call_method(){method();}
 };
 
-class Derived : public Base{
-public:
-    explicit Derived(int i) : Base{i} {}
+void Base::method() {
+    std::cout << "Base::method()" << std::endl;
+}
+
+class Derived : public Base {
+    void method() override;
 };
+
+void Derived::method() {
+    std::cout << "Derived::method()" << std::endl;
+}
 
 int main(){
-    Derived derived{42};
+    Derived derived;
+    derived.call_method();
 }
